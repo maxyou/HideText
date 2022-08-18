@@ -2,55 +2,55 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 
-function encryptXor(text:string, key:string) {
-    var result = '';
+function enXorStr(text:string, key:string) {
+    
+  var result = '';
 
-    for (var i = 0; i < text.length; i++) {
+  for (var i = 0; i < text.length; i++) {
 
-        console.log('text char:'+ text.charCodeAt(i).toString(16))
-        console.log('key char:'+ key.charCodeAt(i % key.length).toString(16))
+    // console.log('text char:'+ text.charCodeAt(i).toString(16))
+    // console.log('key char:'+ key.charCodeAt(i % key.length).toString(16))
 
-        var v =  (text.charCodeAt(i) ^ key.charCodeAt(i % key.length)).toString(16)
-        if(v.length == 1){
-          v = '0'+v
-        }
-        console.log('v:'+v)
-        
-        result += v
-        console.log('res:'+result)
+    var vv =  (text.charCodeAt(i) ^ key.charCodeAt(i % key.length)).toString(16)
+    if(vv.length == 1){
+      vv = '0'+vv
     }
-    return result;
+    // console.log('v:'+v)    
+    result += vv
+  }
+
+  console.log(`enXorStr ${text} with ${key}, get result:${result}`)
+  return result;
 }
 
-function deXor(hexStr:string, key:string) {
+function deXorStr(hexStr:string, key:string) {
 
   var result = '';
 
-  for (var i = 0; i < hexStr.length; i++,i++) {
+  for (var i = 0; i < hexStr.length; i+=2) {
 
-    const v = hexStr.substring(i, i+2)
-    console.log('bv:'+v)
-    const hexNum = parseInt(v, 16)
+    const vv = hexStr.substring(i, i+2)
+    // console.log('bv:'+v)
+    const hexNum = parseInt(vv, 16)
 
-    var vv =  String.fromCharCode(hexNum ^ key.charCodeAt((i/2) % key.length))
+    var v =  String.fromCharCode(hexNum ^ key.charCodeAt((i/2) % key.length))
 
-    result += vv
+    result += v
 
   }
-
+  console.log(`deXorStr ${hexStr} with ${key}, get result:${result}`)
   return result
   
 }
 
 const Home: NextPage = () => {
 
-  const a = 'aaa@gmail.com'
-  const k = '000xxxfff789'
+  const a = '000111aaa@gmail.com'
+  const k = 'z'
 
-  const b = encryptXor(a, k)
-  console.log('b:'+b)
+  const b = enXorStr(a, k)  
 
-  const c = deXor(b, k)
+  const c = deXorStr(b, k)
 
 
   return (
