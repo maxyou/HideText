@@ -10,7 +10,7 @@ const Home: NextPage = () => {
   // console.log(`test random - ${getRandomAlphaNum(8)}`)
 
   const [plainText, setPlainText] = useState('')
-  const [xorKey, setXorKey] = useState(getRandomAlphaNum(8))
+  const [xorKey, setXorKey] = useState('')
   const [cipherText, setCipherText] = useState('')
 
   const router = useRouter()
