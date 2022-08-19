@@ -2,9 +2,14 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
+const utf8 = require('utf8');
 
-function enXorStr(text:string, key:string) {
-    
+//work well: http://localhost:3001/?xor=48494a01000319181b70565f1910161e525d15&key=xyz012
+
+function enXorStr(txt:string, key:string) {
+
+  const text = utf8.encode(txt)
+  
   var result = '';
 
   for (var i = 0; i < text.length; i++) {
@@ -43,48 +48,29 @@ function deXorStr(hexStr:string, key:string):string {
 
   }
   console.log(`deXorStr ${hexStr} with ${key}, result:${result}`)
-  return result
+  return utf8.decode(result) 
   
 }
 
-function hexEncode(str:string){
-  var hex, i;
-
-  var result = "";
-  for (i=0; i<str.length; i++) {
-      hex = str.charCodeAt(i).toString(16);
-      result += ("000"+hex).slice(-4);
-  }
-
-  return result
-}
-function hexDecode(str:string){
-  var j;
-  var hexes = str.match(/.{1,4}/g) || [];
-  var back = "";
-  for(j = 0; j<hexes.length; j++) {
-      back += String.fromCharCode(parseInt(hexes[j], 16));
-  }
-
-  return back;
-}
 
 const Home: NextPage = () => {
 
+
+  const a = 'aaa'
+  const b = 'abc中文123'
+
+  const aa = enXorStr(a, '123')
+  const bb = enXorStr(b, '123')
+
+  console.log(`==== enXorStr - aa:${aa}, bb:${bb}`)
+
+  const aaa = deXorStr(aa, '123')
+  const bbb = deXorStr(bb, '123')
+  
+  console.log(`==== deXorStr - aa:${aaa}, bb:${bbb}`)
+
   const router = useRouter()
   const {xor, key} = router.query
-
-
-
-  const a = '中文'
-  const k = 'xyz012'
-  const r = enXorStr(a,k)
-  console.log(`==enXorStr ${a} with ${k}, result:${r}`)
-  const r2 = deXorStr(r, k)  
-  console.log(`==deXorStr ${r} with ${k}, result:${r2}`)
-  console.log(`==check Str ${a.toString()} with ${k}, result:${r2}`)
-  
-
 
 
   console.log(`deXorStr ${xor as string} with ${key as string}`)
@@ -119,10 +105,10 @@ const Home: NextPage = () => {
         </div>
         
         <div className='bg-yellow-500 w-full h-8'>
-          {r2}  
+          
         </div>
         <div className='bg-orange-500 w-full h-8'>
-          {a}
+          
         </div>
     </div>      
   </>
