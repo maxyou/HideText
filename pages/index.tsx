@@ -2,11 +2,15 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import {useRouter} from 'next/router'
 import { useState } from 'react';
-import { enXorStr, deXorStr} from '../libs/encode'
+import { enXorStr, deXorStr } from '../libs/encode'
+import { getRandomAlphaNum } from '../libs/random'
 
 const Home: NextPage = () => {
+
+  // console.log(`test random - ${getRandomAlphaNum(8)}`)
+
   const [plainText, setPlainText] = useState('')
-  const [xorKey, setXorKey] = useState('')
+  const [xorKey, setXorKey] = useState(getRandomAlphaNum(8))
   const [cipherText, setCipherText] = useState('')
 
   const router = useRouter()
@@ -33,14 +37,16 @@ const Home: NextPage = () => {
 
       <div className='bg-gray-200 w-screen h-screen grid gap-2 place-content-center'>
         
-        <div className='bg-red-500 w-full p-2'>
-          {result}
+        <div className='bg-red-500 max-w-3xl p-2'>
+            <p className='w-auto h-auto break-all'>              
+              {result}
+            </p>
         </div>        
         
-        <div className='bg-orange-500 w-full h-42'>
+        <div className='bg-orange-500 max-w-3xl h-auto'>
           <div className='p-2'>
-            <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text" name="plainText" onChange={e => setPlainText(e.target.value)} value={plainText} />
+            <textarea className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              name="plainText" onChange={e => setPlainText(e.target.value)} value={plainText} />
           </div>
           <div className='p-2'>
             <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -51,7 +57,9 @@ const Home: NextPage = () => {
               onClick={genetateCipherText}>generate</button>
           </div>
           <div className='p-2'>
-            http://localhost:3001/?xor={cipherText}&key={xorKey}            
+            <p className='w-auto h-auto break-all'>
+              http://localhost:3001/?xor={cipherText}&key={xorKey}            
+            </p>
           </div>
         </div>
     </div>      
