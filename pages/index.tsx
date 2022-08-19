@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import {useRouter} from 'next/router'
+import { useState } from 'react';
 const utf8 = require('utf8');
 
 //work well: http://localhost:3001/?xor=48494a01000319181b70565f1910161e525d15&key=xyz012
@@ -54,20 +55,22 @@ function deXorStr(hexStr:string, key:string):string {
 
 
 const Home: NextPage = () => {
+  const [plainText, setPlainText] = useState('')
+  const [xorKey, setXorKey] = useState('')
+  const [cipherText, setCipherText] = useState('')
 
+  // const a = 'aaa'
+  // const b = 'abc中文123'
 
-  const a = 'aaa'
-  const b = 'abc中文123'
+  // const aa = enXorStr(a, '123')
+  // const bb = enXorStr(b, '123')
 
-  const aa = enXorStr(a, '123')
-  const bb = enXorStr(b, '123')
+  // console.log(`==== enXorStr - aa:${aa}, bb:${bb}`)
 
-  console.log(`==== enXorStr - aa:${aa}, bb:${bb}`)
-
-  const aaa = deXorStr(aa, '123')
-  const bbb = deXorStr(bb, '123')
+  // const aaa = deXorStr(aa, '123')
+  // const bbb = deXorStr(bb, '123')
   
-  console.log(`==== deXorStr - aa:${aaa}, bb:${bbb}`)
+  // console.log(`==== deXorStr - aa:${aaa}, bb:${bbb}`)
 
   const router = useRouter()
   const {xor, key} = router.query
@@ -85,6 +88,10 @@ const Home: NextPage = () => {
 
   // const c = deXorStr(b, k)
 
+  const genetateCipherText = async () => {
+    setCipherText(enXorStr(plainText, xorKey))
+  }
+
   return (
     <>
       <Head>
@@ -101,14 +108,28 @@ const Home: NextPage = () => {
           key is {key}
         </div>
         <div className='bg-red-500 w-full h-16 p-2'>
-          Your plain text is {result}
+          {result}
         </div>
         
         <div className='bg-yellow-500 w-full h-8'>
           
         </div>
-        <div className='bg-orange-500 w-full h-8'>
-          
+        <div className='bg-orange-500 w-full h-42'>
+          <div className='p-2'>
+            <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              type="text" name="plainText" onChange={e => setPlainText(e.target.value)} value={plainText} />
+          </div>
+          <div className='p-2'>
+            <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              type="text" name="xorKey" onChange={e => setXorKey(e.target.value)} value={xorKey} />
+          </div>
+          <div className='p-2'>
+            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' 
+              onClick={genetateCipherText}>generate</button>
+          </div>
+          <div className='p-2'>
+            http://localhost:3001/?xor={cipherText}&key={xorKey}            
+          </div>
         </div>
     </div>      
   </>
