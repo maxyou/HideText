@@ -1,5 +1,5 @@
 const sys = {
-    host_domain: 'http://localhost:3000', 
+    host_domain: 'https://hide-text.vercel.app', 
     proj_repo: 'https://github.com/maxyou/HideText'
 }
 
