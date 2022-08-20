@@ -5,14 +5,12 @@ import { useRouter } from 'next/router'
 import { useState } from 'react';
 import { enXorStr, deXorStr } from '../libs/encode'
 import { getRandomAlphaNum } from '../libs/random'
+import { sys } from '../config';
 
 const Home: NextPage = () => {
 
-  // console.log(`test random - ${getRandomAlphaNum(8)}`)
-
   const [plainText, setPlainText] = useState('')
   const [xorKey, setXorKey] = useState('')
-  // const [cipherText, setCipherText] = useState('')
   const [finalLink, setFinalLink] = useState('')
 
   const router = useRouter()
@@ -20,11 +18,12 @@ const Home: NextPage = () => {
 
   console.log(`deXorStr ${c as string} with ${k as string}`)
 
-  var result = 'xor and key must has one char'
-  if (c && k) {
+  var result = ''
+  if (c && k) {//useMemo
     result = deXorStr(c as string, k as string)
     // console.log(`deXorStr ${xor} with ${key}, result:${result}`)  
   }
+
   const copyFinalLink = async () => {
     if ("clipboard" in navigator) {
       await navigator.clipboard.writeText(finalLink);
@@ -32,15 +31,25 @@ const Home: NextPage = () => {
       document.execCommand("copy", true, finalLink);
     }
   }
+  
+  const copyResult = async () => {
+    if ("clipboard" in navigator) {
+      await navigator.clipboard.writeText(result);
+    } else {
+      document.execCommand("copy", true, result);
+    }
+  }
+
   const refreshKey = async () => {
     setXorKey(getRandomAlphaNum(8))
   }
+  
   const genetateCipherText = async () => {
 
     const encoded = enXorStr(plainText, xorKey)
 
-    setFinalLink(`http://localhost:3000/?c=${encoded}&k=${xorKey}`)
-    // setCipherText(encoded)
+    setFinalLink(`${sys.host_domain}/?c=${encoded}&k=${xorKey}`)
+    
   }
 
   return (
@@ -50,33 +59,28 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* <div className='bg-red-300 w-screen h-screen p-4'>
-        <div className='bg-orange-300 max-w-3xl h-96 p-4'>
-          <div className='bg-lime-300 w-96 h-16 p-4'>
-            TheThewautoutilitycanbeusefulifyouneedtoremove
-          </div>    
-          <div className='bg-lime-300 w-20 h-16 p-4'>
-            test2
-          </div>    
-        </div>
-      </div> */}
-
-
       <div className='bg-gray-100 w-screen h-screen flex flex-row justify-center items-center'>
 
         {
           c ?
-            <>
-              <div className='bg-red-500 max-w-3xl p-2'>
-                <p className='w-auto h-auto break-all'>
-                  {result}
-                </p>
+            <div className='bg-white w-1/2 max-w-2xl 	min-w-[30rem] h-auto p-6 border rounded'>
+              
+              <div className='p-2'>
+                <p className='w-auto h-auto break-all p-2 border rounded min-h-[4rem] hover:decoration-inherit'>
+                {result}
+                </p>                
+              </div>
+              <div className='p-2 flex flex-row justify-between'>
+                <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
+                  onClick={copyResult}>Copy</button>
+                <div className='bg-white hover:text-blue-500 text-black p-2 border border-blue-600 rounded'>
+                  <Link href={'/'}>
+                    <a>Create my hidden text</a>
+                  </Link>
+                </div>
               </div>
 
-              <Link href={'/'}>
-                <a>create my covered text</a>
-              </Link>
-            </>
+            </div>
             :
             <div className='bg-white w-1/2 max-w-2xl 	min-w-[30rem] h-auto p-6 border rounded'>
               <div className='p-2'>
