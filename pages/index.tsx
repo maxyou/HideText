@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { enXorStr, deXorStr } from '../libs/encode'
 import { getRandomAlphaNum } from '../libs/random'
 import { sys } from '../config';
@@ -19,11 +19,16 @@ const Home: NextPage = () => {
 
   console.log(`deXorStr ${c as string} with ${k as string}`)
 
-  var result = ''
-  if (c && k) {//useMemo
-    result = deXorStr(c as string, k as string)
-    // console.log(`deXorStr ${xor} with ${key}, result:${result}`)  
-  }
+  var result = useMemo(
+    ()=>{ 
+      return c && k && deXorStr(c as string, k as string) 
+    },
+    [c, k]
+  )
+  // var result = ''
+  // if (c && k) {//useMemo
+  //   result = deXorStr(c as string, k as string)    
+  // }
 
   const copyFinalLink = async () => {
     if ("clipboard" in navigator) {
