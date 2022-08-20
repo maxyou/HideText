@@ -12,6 +12,7 @@ const Home: NextPage = () => {
   const [plainText, setPlainText] = useState('')
   const [xorKey, setXorKey] = useState('')
   const [finalLink, setFinalLink] = useState('')
+  const [copyButtonText, setCopyButtonText] = useState('Copy')
 
   const router = useRouter()
   const { c, k } = router.query
@@ -26,7 +27,10 @@ const Home: NextPage = () => {
 
   const copyFinalLink = async () => {
     if ("clipboard" in navigator) {
+      setCopyButtonText('Done!')
       await navigator.clipboard.writeText(finalLink);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setCopyButtonText('Copy')
     } else {
       document.execCommand("copy", true, finalLink);
     }
@@ -34,7 +38,10 @@ const Home: NextPage = () => {
   
   const copyResult = async () => {
     if ("clipboard" in navigator) {
+      setCopyButtonText('Done!')
       await navigator.clipboard.writeText(result);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setCopyButtonText('Copy')
     } else {
       document.execCommand("copy", true, result);
     }
@@ -72,7 +79,7 @@ const Home: NextPage = () => {
               </div>
               <div className='p-2 flex flex-row justify-between'>
                 <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
-                  onClick={copyResult}>Copy</button>
+                  onClick={copyResult}>{copyButtonText}</button>
                 <div className='bg-white hover:text-blue-500 text-black p-2 border border-blue-600 rounded'>
                   <Link href={'/'}>
                     <a>Create my hidden text</a>
@@ -106,7 +113,7 @@ const Home: NextPage = () => {
               </div>
               <div className='p-2'>
                 <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
-                  onClick={copyFinalLink}>Copy</button>
+                  onClick={copyFinalLink}>{copyButtonText}</button>
               </div>
             </div>
         }
