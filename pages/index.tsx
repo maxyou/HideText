@@ -78,22 +78,22 @@ const Home: NextPage = () => {
               </Link>
             </>
             :
-            <div className='bg-white w-1/2 max-w-2xl h-auto p-6 border rounded'>
+            <div className='bg-white w-1/2 max-w-2xl 	min-w-[30rem] h-auto p-6 border rounded'>
               <div className='p-2'>
-                <textarea className="shadow appearance-none border rounded w-full min-h-[10rem] p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                <textarea className="shadow appearance-none border rounded w-full min-h-[10rem] p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-600"
                   name="plainText" onChange={e => setPlainText(e.target.value)} value={plainText} />
               </div>
-              <div className='p-2'>
-                <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text" name="xorKey" onChange={e => setXorKey(e.target.value)} value={xorKey} >
-                    
+              <div className='p-2 flex gap-2'>
+                <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-600"
+                  type="text" name="xorKey" onChange={e => setXorKey(e.target.value)} value={xorKey} placeholder="key should be alphabet or numeric" >                    
                   </input>
+                <button className='bg-blue-500 min-w-fit hover:bg-blue-700 text-white p-2 rounded'
+                  onClick={refreshKey}>Random Key</button>
               </div>
               <div className='p-2'>
                 <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
                   onClick={genetateCipherText}>Generate</button>
-                <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
-                  onClick={refreshKey}>Refresh key</button>
+                
               </div>
               <div className='p-2'>
                 <p className='w-auto h-auto break-all p-2 border rounded min-h-[4rem] hover:decoration-inherit'>
