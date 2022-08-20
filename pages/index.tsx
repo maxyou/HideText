@@ -25,7 +25,13 @@ const Home: NextPage = () => {
     result = deXorStr(xor as string, key as string)  
     // console.log(`deXorStr ${xor} with ${key}, result:${result}`)  
   }
-  
+  const copyFinalLink = async () => {
+    if ("clipboard" in navigator) {
+      await navigator.clipboard.writeText(finalLink);
+    } else {
+      document.execCommand("copy", true, finalLink);
+    }
+  } 
   const refreshKey = async () => {   
     setXorKey(getRandomAlphaNum(8))
   }
@@ -74,6 +80,8 @@ const Home: NextPage = () => {
                 onClick={genetateCipherText}>generate</button>
               <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded' 
                 onClick={refreshKey}>refresh key</button>
+              <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded' 
+                onClick={copyFinalLink}>copy</button>
             </div>
             <div className='p-2'>
               <p className='w-auto h-auto break-all'>                
