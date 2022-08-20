@@ -17,18 +17,14 @@ const Home: NextPage = () => {
   const router = useRouter()
   const { c, k } = router.query
 
-  console.log(`deXorStr ${c as string} with ${k as string}`)
+  // console.log(`deXorStr ${c as string} with ${k as string}`)
 
   var result = useMemo(
-    ()=>{ 
-      return c && k && deXorStr(c as string, k as string) 
+    () => {
+      return c && k && deXorStr(c as string, k as string) || ''
     },
     [c, k]
-  )
-  // var result = ''
-  // if (c && k) {//useMemo
-  //   result = deXorStr(c as string, k as string)    
-  // }
+  )  
 
   const copyFinalLink = async () => {
     if ("clipboard" in navigator) {
@@ -40,7 +36,7 @@ const Home: NextPage = () => {
       document.execCommand("copy", true, finalLink);
     }
   }
-  
+
   const copyResult = async () => {
     if ("clipboard" in navigator) {
       setCopyButtonText('Done!')
@@ -55,13 +51,13 @@ const Home: NextPage = () => {
   const refreshKey = async () => {
     setXorKey(getRandomAlphaNum(8))
   }
-  
+
   const genetateCipherText = async () => {
 
     const encoded = enXorStr(plainText, xorKey)
 
     setFinalLink(`${sys.host_domain}/?c=${encoded}&k=${xorKey}`)
-    
+
   }
 
   return (
@@ -76,11 +72,11 @@ const Home: NextPage = () => {
         {
           c ?
             <div className='bg-white w-1/2 max-w-2xl 	min-w-[30rem] h-auto p-6 border rounded'>
-              
+
               <div className='p-2'>
                 <p className='w-auto h-auto break-all p-2 border rounded min-h-[4rem] hover:decoration-inherit'>
-                {result}
-                </p>                
+                  {result}
+                </p>
               </div>
               <div className='p-2 flex flex-row justify-between'>
                 <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
@@ -101,35 +97,35 @@ const Home: NextPage = () => {
               </div>
               <div className='p-2 flex gap-2'>
                 <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-600"
-                  type="text" name="xorKey" onChange={e => setXorKey(e.target.value)} value={xorKey} placeholder="key should be alphabet or numeric" >                    
-                  </input>
+                  type="text" name="xorKey" onChange={e => setXorKey(e.target.value)} value={xorKey} placeholder="key should be alphabet or numeric" >
+                </input>
                 <button className='bg-blue-500 min-w-fit hover:bg-blue-700 text-white p-2 rounded'
                   onClick={refreshKey}>Random Key</button>
               </div>
               <div className='p-2'>
                 {
                   plainText && xorKey ?
-                  <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
-                  onClick={genetateCipherText}>Generate</button>
-                  :
-                  <button className="bg-blue-500 text-white p-2 rounded opacity-50 cursor-not-allowed">Generate</button>
-                }                
+                    <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
+                      onClick={genetateCipherText}>Generate</button>
+                    :
+                    <button className="bg-blue-500 text-white p-2 rounded opacity-50 cursor-not-allowed">Generate</button>
+                }
               </div>
 
               {
                 finalLink ?
-                <div>
-                  <div className='p-2'>
-                    <p className='w-auto h-auto break-all p-2 border rounded min-h-[4rem] hover:decoration-inherit'>
-                      <a href={`${finalLink}`} className='underline decoration-transparent hover:decoration-inherit'>{finalLink}</a>
-                    </p>                
+                  <div>
+                    <div className='p-2'>
+                      <p className='w-auto h-auto break-all p-2 border rounded min-h-[4rem] hover:decoration-inherit'>
+                        <a href={`${finalLink}`} className='underline decoration-transparent hover:decoration-inherit'>{finalLink}</a>
+                      </p>
+                    </div>
+                    <div className='p-2'>
+                      <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
+                        onClick={copyFinalLink}>{copyButtonText}</button>
+                    </div>
                   </div>
-                  <div className='p-2'>
-                    <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
-                      onClick={copyFinalLink}>{copyButtonText}</button>
-                  </div>
-                </div>
-                :null
+                  : null
               }
 
             </div>
