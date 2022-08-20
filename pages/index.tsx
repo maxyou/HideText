@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import Head from 'next/head'
 import {useRouter} from 'next/router'
 import { useState } from 'react';
@@ -12,6 +13,7 @@ const Home: NextPage = () => {
   const [plainText, setPlainText] = useState('')
   const [xorKey, setXorKey] = useState('')
   const [cipherText, setCipherText] = useState('')
+  const [finalLink, setFinalLink] = useState('')
 
   const router = useRouter()
   const {xor, key} = router.query
@@ -23,9 +25,16 @@ const Home: NextPage = () => {
     result = deXorStr(xor as string, key as string)  
     // console.log(`deXorStr ${xor} with ${key}, result:${result}`)  
   }
-
+  
+  const refreshKey = async () => {   
+    setXorKey(getRandomAlphaNum(8))
+  }
   const genetateCipherText = async () => {
-    setCipherText(enXorStr(plainText, xorKey))
+
+    const encoded = enXorStr(plainText, xorKey)
+
+    setFinalLink(`http://localhost:3000/?xor=${encoded}&key=${xorKey}`)    
+    setCipherText(encoded)
   }
 
   return (
@@ -37,31 +46,47 @@ const Home: NextPage = () => {
 
       <div className='bg-gray-200 w-screen h-screen grid gap-2 place-content-center'>
         
-        <div className='bg-red-500 max-w-3xl p-2'>
-            <p className='w-auto h-auto break-all'>              
-              {result}
-            </p>
-        </div>        
+        {
+          xor?
+          <div>
+            <div className='bg-red-500 max-w-3xl p-2'>
+                <p className='w-auto h-auto break-all'>              
+                  {result}
+                </p>
+            </div>        
+            
+            <Link href={'/'}>
+              <a>create my covered text</a>
+            </Link>
+          </div>
+          :
+          <div className='bg-orange-500 max-w-3xl h-auto'>
+            <div className='p-2'>
+              <textarea className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                name="plainText" onChange={e => setPlainText(e.target.value)} value={plainText} />
+            </div>
+            <div className='p-2'>
+              <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text" name="xorKey" onChange={e => setXorKey(e.target.value)} value={xorKey} />
+            </div>
+            <div className='p-2'>
+              <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded' 
+                onClick={genetateCipherText}>generate</button>
+              <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 rounded' 
+                onClick={refreshKey}>refresh key</button>
+            </div>
+            <div className='p-2'>
+              <p className='w-auto h-auto break-all'>                
+                {finalLink}
+              </p>
+            </div>
+          </div>
+        }
+
         
-        <div className='bg-orange-500 max-w-3xl h-auto'>
-          <div className='p-2'>
-            <textarea className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              name="plainText" onChange={e => setPlainText(e.target.value)} value={plainText} />
-          </div>
-          <div className='p-2'>
-            <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text" name="xorKey" onChange={e => setXorKey(e.target.value)} value={xorKey} />
-          </div>
-          <div className='p-2'>
-            <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' 
-              onClick={genetateCipherText}>generate</button>
-          </div>
-          <div className='p-2'>
-            <p className='w-auto h-auto break-all'>
-              http://localhost:3001/?xor={cipherText}&key={xorKey}            
-            </p>
-          </div>
-        </div>
+
+
+
     </div>      
   </>
   )
