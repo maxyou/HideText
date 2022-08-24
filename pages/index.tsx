@@ -71,8 +71,7 @@ const Home: NextPage = () => {
 
         {
           c ?
-            <div className='bg-white w-1/2 max-w-2xl 	min-w-[30rem] h-auto p-6 border rounded'>
-
+            <div className='bg-white w-full sm:w-4/5 max-w-xl h-auto p-6 border rounded'>
               <div className='p-2'>
                 <p className='w-auto h-auto break-all p-2 border rounded min-h-[4rem] hover:decoration-inherit'>
                   {result}
@@ -90,7 +89,7 @@ const Home: NextPage = () => {
 
             </div>
             :
-            <div className='bg-white w-1/2 max-w-2xl 	min-w-[30rem] h-auto p-6 border rounded'>
+            <div className='bg-white w-full sm:w-4/5 max-w-xl h-auto p-6 border rounded'>
               <div className='p-2'>
                 <textarea className="shadow appearance-none border rounded w-full min-h-[10rem] p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-600"
                   name="plainText" onChange={e => setPlainText(e.target.value)} value={plainText} placeholder="here your plain text" />
