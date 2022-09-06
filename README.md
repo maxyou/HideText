@@ -16,6 +16,8 @@ This tool can hide the string "my_special_name" in many of random links, like th
 
 While click on this random string links, all of them shows the same string of "my_special_name". So in the future you can leave  this kind of different random string links on different places, and other people can not find your trace by searching for the string of "my_special_name" on Google.
 
+### How it works
+
 The mechanism of this tool is very simple. In this random string links, after "k=", it is a random of 8 chars, used as a key. After "c=", until "&", there is a long string, as a ciphertext, which is the result of your plain text XOR with the key. When others click on this links, the page of "https://hide-text.vercel.app" will use the key to XOR the ciphertext. For a string XOR with a key twice will get the original string, this means the original plain text of you. That's all.
 
 The page of "https://hide-text.vercel.app" is only a static page and contain only a XOR function, nothing else. No database, no Cookies or Sessions. It will record nothing, and you can use it safely.
