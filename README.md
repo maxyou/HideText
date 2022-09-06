@@ -1,7 +1,11 @@
 
-# hide your text by random key
+# Hide your text by random key
 
-This tool use random numbers to hide your text from search engines finding your internet activity.
+This tool use random numbers to hide your text from search engines finding your internet activity. It has been deployed online: 
+
+- http://hide-text.vercel.app/
+
+### Scenario
 
 Imagine this scenario, that you left your contact information "my_special_name" on Reddit.com. While other people use Google search the string "my_special_name" and find it also on the web site of Greendit.com. This is because you leave the same string of your contact "my_special_name" there. So, you activity trace is uncovered.
 
@@ -18,5 +22,5 @@ The page of "https://hide-text.vercel.app" is only a static page and contain onl
 
 Hope it's useful to you.
 
-### screen:
+### Screenshot
 ![](https://raw.githubusercontent.com/maxyou/HideText/main/screen.png)
