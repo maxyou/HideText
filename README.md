@@ -6,9 +6,9 @@ This tool use random numbers to hide your text from search engines finding your 
 Imagine this scenario, that you left your contact information "my_special_name" on Reddit.com. While other people use Google search the string "my_special_name" and find it also on the web site of Greendit.com. This is because you leave the same string of your contact "my_special_name" there. So, you activity trace is uncovered.
 
 This tool can hide the string "my_special_name" in many of random links, like these:
-https://hide-text.vercel.app/?c=1f1c6c1440352b5013096c09513d2d&k=re3g0PH9
-https://hide-text.vercel.app/?c=08161e470013065a04031e5a111b00&k=eoA4pve3
-https://hide-text.vercel.app/?c=064b064521270a100a5e0658302f0c&k=k2Y6QBiy
+- https://hide-text.vercel.app/?c=1f1c6c1440352b5013096c09513d2d&k=re3g0PH9
+- https://hide-text.vercel.app/?c=08161e470013065a04031e5a111b00&k=eoA4pve3
+- https://hide-text.vercel.app/?c=064b064521270a100a5e0658302f0c&k=k2Y6QBiy
 
 While click on this random string links, all of them shows the same string of "my_special_name". So in the future you can leave  this kind of different random string links on different places, and other people can not find your trace by searching for the string of "my_special_name" on Google.
 
@@ -19,4 +19,4 @@ The page of "https://hide-text.vercel.app" is only a static page and contain onl
 Hope it's useful to you.
 
 ### screen:
-![](https://github.com/maxyou/HideText/raw/main/screen.PNG)
+![](https://raw.githubusercontent.com/maxyou/HideText/main/screen.png)
