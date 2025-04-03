@@ -24,5 +24,9 @@ The page of "https://hide-text.vercel.app" is only a static page and contain onl
 
 Hope it's useful to you.
 
+### Update 2025-04-04
+
+Using base64 format, the ciphertext is shortened by 1/3.
+
 ### Screenshot
 ![](https://raw.githubusercontent.com/maxyou/HideText/main/screen.png)
