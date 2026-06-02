@@ -15,15 +15,31 @@ export function enXorStr(text:string, key:string) {
   return base64;
 }
 
-export function deXorStr(base64Str:string, key:string):string {
+export function deXorStr(input:string, key:string):string {
 
-  base64Str = base64Str.replace(/-/g, '+').replace(/_/g, '/'); // 还原 Base64
-  const xorResult = Buffer.from(base64Str, 'base64').toString('hex'); // 将 Base64 转换为十六进制字符串
+  // 容错：防止参数被 encodeURIComponent 编码
+  let raw = input;
+  try {
+    raw = decodeURIComponent(raw);
+  } catch (e) {
+    // ignore
+  }
+
+  // 如果是旧版的 hex（只包含 0-9a-fA-F 且长度为偶数），直接当作 hex 处理
+  let xorHex: string;
+  if (/^[0-9a-fA-F]+$/.test(raw) && (raw.length % 2 === 0)) {
+    xorHex = raw.toLowerCase();
+  } else {
+    // 新版：URL-safe Base64 -> 标准 Base64 -> 转为 hex
+    const b64 = raw.replace(/-/g, '+').replace(/_/g, '/'); // 还原 Base64
+    xorHex = Buffer.from(b64, 'base64').toString('hex'); // 将 Base64 转换为十六进制字符串
+  }
+
   let result = '';
-  for (let i = 0; i < xorResult.length; i += 2) {
-    const vv = xorResult.substring(i, i + 2);
+  for (let i = 0; i < xorHex.length; i += 2) {
+    const vv = xorHex.substring(i, i + 2);
     const hexNum = parseInt(vv, 16);
     result += String.fromCharCode(hexNum ^ key.charCodeAt(i / 2 % key.length));
   }
-  return utf8.decode(result);  
+  return utf8.decode(result);
 }
