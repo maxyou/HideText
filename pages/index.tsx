@@ -74,6 +74,7 @@ const Home: NextPage = () => {
       <Head>
         <title>hide your text</title>
         <link rel="icon" href="/favicon.ico" />
+        <link rel="canonical" href={`${sys.host_domain}/`} />
       </Head>
 
       <div className='bg-gray-100 w-screen h-screen flex flex-col justify-center items-center'>
