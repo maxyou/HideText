@@ -9,6 +9,12 @@ import { sys } from '../config';
 
 const Home: NextPage = () => {
 
+  const maxBytes = 1400
+
+  const getByteLength = (str: string) => {
+    return new TextEncoder().encode(str).length
+  }
+
   const [plainText, setPlainText] = useState('')
   const [xorKey, setXorKey] = useState('')
   const [finalLink, setFinalLink] = useState('')
@@ -24,7 +30,10 @@ const Home: NextPage = () => {
       return c && k && deXorStr(c as string, k as string) || ''
     },
     [c, k]
-  )  
+  )
+
+  const plainTextBytes = useMemo(() => getByteLength(plainText), [plainText])
+  const isPlainTextTooLong = plainTextBytes > maxBytes
 
   const copyFinalLink = async () => {
     if ("clipboard" in navigator) {
@@ -93,6 +102,9 @@ const Home: NextPage = () => {
               <div className='p-2'>
                 <textarea className="shadow appearance-none border rounded w-full min-h-[10rem] p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-600"
                   name="plainText" onChange={e => setPlainText(e.target.value)} value={plainText} placeholder="here your plain text" />
+                <p className={`pt-2 text-right text-xs ${isPlainTextTooLong ? 'text-red-600' : 'text-gray-500'}`}>
+                  {`${plainTextBytes}/${maxBytes}`}
+                </p>
               </div>
               <div className='p-2 flex gap-2'>
                 <input className="shadow appearance-none border rounded w-full p-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-600"
@@ -103,7 +115,7 @@ const Home: NextPage = () => {
               </div>
               <div className='p-2'>
                 {
-                  plainText && xorKey ?
+                  plainText && xorKey && !isPlainTextTooLong ?
                     <button className='bg-blue-500 hover:bg-blue-700 text-white p-2 rounded'
                       onClick={genetateCipherText}>Generate</button>
                     :
